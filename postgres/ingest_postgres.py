@@ -5,10 +5,12 @@ import boto3
 # Conectar a la base de datos PostgreSQL
 connection = psycopg2.connect(
     host='3.234.197.222',  # IP de la base de datos PostgreSQL
+    port=8006,  # Puerto expuesto en Docker para PostgreSQL
     user='postgres',
     password='mypassword',
     database='MS_Cursos'
 )
+
 
 # Consulta para extraer los datos de la tabla Curso
 df = pd.read_sql("SELECT * FROM Curso", connection)
