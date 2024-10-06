@@ -5,10 +5,12 @@ import boto3
 # Conectar a la base de datos MySQL
 connection = pymysql.connect(
     host='3.234.197.222',  # IP de la base de datos MySQL
+    port=8007,  # Puerto expuesto en Docker para MySQL
     user='root',
     password='utec',
     database='MC_Estudiantes'
 )
+
 
 # Consulta para extraer todos los registros
 df = pd.read_sql("SELECT * FROM Estudiante", connection)
