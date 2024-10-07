@@ -11,19 +11,20 @@ connection = pymysql.connect(
     database='MC_Estudiantes'
 )
 
-
-# Consulta para extraer todos los registros
-df = pd.read_sql("SELECT * FROM Estudiante", connection)
-
-# Guardar los datos como CSV en un archivo temporal
-csv_file = "/tmp/estudiantes.csv"
-df.to_csv(csv_file, index=False)
-
 # Conectar a S3
 s3 = boto3.client('s3')
-
-# Subir el archivo CSV al bucket S3
 bucket_name = 'ingesta-aguilar-yoyi-ema-cloud-2'  # Reemplaza con el nombre de tu bucket
-s3.upload_file(csv_file, bucket_name, 'microservicio1/estudiantes.csv')
 
-print("Datos cargados a S3 con éxito.")
+# Consulta para extraer registros de la tabla Estudiante
+df_estudiantes = pd.read_sql("SELECT * FROM Estudiante", connection)
+csv_file_estudiantes = "/tmp/estudiantes.csv"
+df_estudiantes.to_csv(csv_file_estudiantes, index=False)
+s3.upload_file(csv_file_estudiantes, bucket_name, 'microservicio1/estudiantes.csv')
+
+# Consulta para extraer registros de la tabla Carrera
+df_carreras = pd.read_sql("SELECT * FROM Carrera", connection)
+csv_file_carreras = "/tmp/carreras.csv"
+df_carreras.to_csv(csv_file_carreras, index=False)
+s3.upload_file(csv_file_carreras, bucket_name, 'microservicio1/carreras.csv')
+
+print("Datos de Estudiantes y Carreras cargados a S3 con éxito.")
