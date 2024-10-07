@@ -1,7 +1,7 @@
 FROM python:3.9
 
 # Instalar las dependencias necesarias
-RUN pip install pandas pymysql boto3
+RUN pip install pandas pymysql boto3 cryptography
 
 # Copiar el script de ingesta al contenedor
 COPY ingest_mysql.py /app/ingest_mysql.py
