@@ -10,8 +10,8 @@ db = client['MS_Evaluaciones']
 s3 = boto3.client('s3')
 bucket_name = 'ingesta-aguilar-yoyi-ema-cloud-2'  # Reemplaza con el nombre de tu bucket
 
-# Extraer datos de la colección Evaluacion
-df_evaluaciones = pd.DataFrame(list(db['Evaluacion'].find()))
+# Extraer datos de la colección Evaluaciones (nombre corregido)
+df_evaluaciones = pd.DataFrame(list(db['Evaluaciones'].find()))  # Cambié 'Evaluacion' por 'Evaluaciones'
 csv_file_evaluaciones = "/tmp/evaluaciones.csv"
 df_evaluaciones.to_csv(csv_file_evaluaciones, index=False)
 s3.upload_file(csv_file_evaluaciones, bucket_name, 'microservicio3/evaluaciones.csv')
