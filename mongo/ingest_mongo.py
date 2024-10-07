@@ -18,7 +18,7 @@ df.to_csv(csv_file, index=False)
 s3 = boto3.client('s3')
 
 # Subir el archivo CSV al bucket S3
-bucket_name = 'ingesta-aguilar-yoyi-ema-cloud'  # Reemplaza con el nombre de tu bucket
+bucket_name = 'ingesta-aguilar-yoyi-ema-cloud-2'  # Reemplaza con el nombre de tu bucket
 s3.upload_file(csv_file, bucket_name, 'microservicio3/evaluaciones.csv')
 
 print("Datos cargados a S3 con éxito.")
