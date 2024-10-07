@@ -1,24 +1,25 @@
+from pymongo import MongoClient
 import pandas as pd
 import boto3
-from pymongo import MongoClient
 
 # Conectar a la base de datos MongoDB
-client = MongoClient('mongodb://3.234.197.222:27017/')
+client = MongoClient('mongodb://3.234.197.222:27017/MS_Evaluaciones')
 db = client['MS_Evaluaciones']
-
-# Extraer los documentos de la colección Evaluaciones
-evaluaciones = db.Evaluaciones.find()
-df = pd.DataFrame(list(evaluaciones))
-
-# Guardar los datos como CSV en un archivo temporal
-csv_file = "/tmp/evaluaciones.csv"
-df.to_csv(csv_file, index=False)
 
 # Conectar a S3
 s3 = boto3.client('s3')
-
-# Subir el archivo CSV al bucket S3
 bucket_name = 'ingesta-aguilar-yoyi-ema-cloud-2'  # Reemplaza con el nombre de tu bucket
-s3.upload_file(csv_file, bucket_name, 'microservicio3/evaluaciones.csv')
 
-print("Datos cargados a S3 con éxito.")
+# Extraer datos de la colección Evaluacion
+df_evaluaciones = pd.DataFrame(list(db['Evaluacion'].find()))
+csv_file_evaluaciones = "/tmp/evaluaciones.csv"
+df_evaluaciones.to_csv(csv_file_evaluaciones, index=False)
+s3.upload_file(csv_file_evaluaciones, bucket_name, 'microservicio3/evaluaciones.csv')
+
+# Extraer datos de la colección Notas
+df_notas = pd.DataFrame(list(db['Notas'].find()))
+csv_file_notas = "/tmp/notas.csv"
+df_notas.to_csv(csv_file_notas, index=False)
+s3.upload_file(csv_file_notas, bucket_name, 'microservicio3/notas.csv')
+
+print("Datos de Evaluaciones y Notas cargados a S3 con éxito.")
