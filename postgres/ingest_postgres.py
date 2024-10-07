@@ -7,7 +7,7 @@ connection = psycopg2.connect(
     host='3.234.197.222',  # IP de la base de datos PostgreSQL
     port=8006,  # Puerto expuesto en Docker para PostgreSQL
     user='postgres',
-    password='mypassword',
+    password='utec',
     database='MS_Cursos'
 )
 
